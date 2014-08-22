@@ -11,5 +11,7 @@ urlpatterns = patterns('',
                        # url(r'^blog/', include('blog.urls')),
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^$', 'mysite.views.index'),
-                       url(r'^polls/', include('polls.urls', namespace='polls'))
+                       url(r'^polls/', include('polls.urls',
+                           namespace='polls')),
+                       url(r'^fda/', include('fda.urls', namespace='fda'))
                        )
