@@ -6,12 +6,14 @@ from django.conf import settings
 
 # Create your views here.
 
+dataPath = "{0}/../fda/data/dd.json".format(settings.PROJECT_ROOT)
+
 def index(request):
     return render(request,"fda/index.html", {})
 
 def genData(request):
-    path = "{0}/../fda/data/dd.json".format(settings.PROJECT_ROOT)
-    with open(path, "w") as out:
+    # path = "{0}/../fda/data/dd.json".format(settings.PROJECT_ROOT)
+    with open(dataPath, "w") as out:
         out.write("testing data") 
 
     return HttpResponse("success generate data")
@@ -20,3 +22,8 @@ def genData(request):
 def showGraph(request):
 	return render(request,"fda/graph.html",{})
 
+def getGraphData(request):
+
+	fp = open(dataPath, "r")
+	json = fp.read()
+	return HttpResponse(json)
