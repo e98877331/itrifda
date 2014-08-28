@@ -12,8 +12,8 @@ def index(request):
     return render(request,"fda/index.html", {})
 
 def genData(request):
-    # path = "{0}/../fda/data/dd.json".format(settings.PROJECT_ROOT)
-    with open(dataPath, "w") as out:
+    path = "{0}/../fda/data/test.json".format(settings.PROJECT_ROOT)
+    with open(path, "w") as out:
         out.write("testing data") 
 
     return HttpResponse("success generate data")
