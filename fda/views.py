@@ -42,7 +42,7 @@ def genData2(request):
     return HttpResponse("success generate data")
    
 def getGraphData2(request):
-
+	dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
 	fp = open(dataPath, "r")
 	json = fp.read()
 	return HttpResponse(json)

@@ -5,13 +5,13 @@ from fda import views
 urlpatterns = patterns('',
         # ex: /polls/
         url(r'^$', views.index, name='index'),
-        url(r'^genData', views.genData, name='genData'),
+        url(r'^genData/', views.genData, name='genData'),
 		url(r'^showGraph/', views.showGraph, name='showGraph'),
-		url(r'^getGraphData', views.getGraphData, name='getGraphData'),
+		url(r'^getGraphData/', views.getGraphData, name='getGraphData'),
 
 		url(r'^genData2', views.genData, name='genData'),
 		url(r'^showGraph2/', views.showGraph2, name='showGraph2'),
-		url(r'^getGraphData2', views.getGraphData, name='getGraphData'),
+		url(r'^getGraphData2', views.getGraphData2, name='getGraphData2'),
 
         # ex: /polls/5/
 #         url(r'^(?P<poll_id>\d+)/$', views.detail,
