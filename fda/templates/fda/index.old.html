@@ -1,0 +1,11 @@
+<h1> Main Page </h1>
+
+<form action="{% url 'fda:genData' %}" method='post'>
+    {% csrf_token %}
+    <input type="submit" value="Generate"/>
+</form>
+
+<form action="{% url 'fda:showGraph' %}" method='post'>
+    {% csrf_token %}
+    <input type="submit" value="Show Graph"/>
+</form>
