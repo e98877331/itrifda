@@ -20,7 +20,7 @@ def genData(request):
    
 
 def showGraph(request):
-	return render(request,"fda/graph.html",{})
+	return render(request,"fda/graph1.html",{})
 
 def getGraphData(request):
 
