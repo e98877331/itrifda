@@ -51,6 +51,9 @@ def getGraphData2(request):
 	return HttpResponse(json)
 
 
+def feedback(request):
+	return render(request,"fda/feedback.html",{})
+
 #expert statement api
 
 @csrf_exempt

@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Feedback</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "logonav/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static "logonav/css/logo-nav.css" %}" rel="stylesheet">
+    <script src="{% static "logonav/js/jquery-1.11.0.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "logonav/js/bootstrap.min.js" %}"></script>
+
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+<style>
+
+</style>
+</head>
+<html>
+ {% include "fda/navi.html" %}
+
+<div class="container">
+<table class="table table-hover">
+   <tr>
+    <td>食品添加物或原料名稱</td>
+    <td>添加物或原料</td> 
+    <td>熱門程度</td>
+    <td>專家意見</td>
+  </tr>
+  <tr>
+    <td>Eve</td>
+    <td>Jackson</td> 
+    <td>94</td>
+    <td>94</td>
+  </tr>
+{% for cell in data %}
+	<tr>
+		<td>{{cell.name}}</td>
+		<td>{{cell.radius}}</td>
+		<td>{{cell.name}}</td>
+		<td>{{cell.name}}</td>
+    <!-- <label for="choice{{ forloop.counter}}">{{ choice.choice_text }}</label><br /> -->
+	</tr>         
+{% endfor %}
+
+
+</table>
+</div>
+</html>
