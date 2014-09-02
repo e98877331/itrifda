@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
 		url(r'^feedback$', views.feedback, name='feedback'),
 
-
+		url(r'^editExpertStatement$', views.editExpertStatement, name='editExpertStatement'),
 		url(r'^getExpertStatement$', views.getExpertStatement, name='getExpertStatement'),
 
         # ex: /polls/5/

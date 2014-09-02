@@ -55,7 +55,7 @@
           <td>{{cell.radius}}</td>
           <td>意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們</td>
           <td>
-            <button class="btn btn-primary btn-lg" id="editBtn" data-toggle="modal" data-target="#myModal" for="{{forloop.counter}}">
+            <button class="btn btn-primary btn-lg" id="editBtn" data-toggle="modal" data-target="#myModal" for="{{forloop.counter}}" foodName={{cell.name}}>
                 編輯
             </button>
         </td>
@@ -81,12 +81,13 @@
     </div>
 
     <form class="contact">
+        {% csrf_token %}
         <!-- <fieldset> -->
         <div class="modal-body">
             <ul class="nav nav-list">
-
+                 <li><input class="input-xlarge" value="food1" type="text" name="foodName"></li>
                 <li class="nav-header">Message</li>
-                <li><textarea class="input-xlarge" name="sug" rows="3"> Thanks for the article and demo
+                <li><textarea class="input-xlarge" name="statement" rows="3" id="statement"> Thanks for the article and demo
                 </textarea></li>
             </ul> 
         </div>
@@ -106,19 +107,25 @@
 
 <script>
 var currentClickItem;
-
+var currentFoodName;
 $(function() {
 //twitter bootstrap script
 $("button#submit").click(function(){
-    console.log("current comment: " + $('form.contact').serialize());
-    console.log("clicked " );
+    console.log("current comment: " + $('#statement').val());
+    
     $.ajax({
      type: "POST",
-     url: "process.php",
-     data: $('form.contact').serialize(),
+     url: "{% url "fda:editExpertStatement" %}",
+     // data: $('form.contact').serialize(),
+     data: {
+                    foodName: currentFoodName,
+                    statement: $('#statement').val(),
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
      success: function(msg){
-       $("#thanks").html(msg)
-       $("#form-content").modal('hide');    
+       // $("#thanks").html(msg)
+       console.log("success " );
+       $("#myModal").modal('hide');    
    },
    error: function(){
     console.log("error");
@@ -128,7 +135,7 @@ $("button#submit").click(function(){
 
 $("button#editBtn").click(function(){
     currentClickItem = $(this).attr("for");
-
+    currentFoodName = $(this).attr("foodName");
     // $("#myModalLabel")
 });
 

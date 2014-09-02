@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 import json
 from django.views.decorators.csrf import csrf_exempt
+from fda.models import ExpertStatement as ES
 
 # Create your views here.
 
@@ -58,6 +59,22 @@ def feedback(request):
 	jsonObject = json.loads(jsonString)
 
 	return render(request,"fda/feedback.html",{"data":jsonObject})
+
+
+
+
+def editExpertStatement(request):
+	es = request.POST
+
+	try:
+		e = ES.objects.get(foodName = es['foodName'])
+		e.statement = es['statement']
+	except ES.DoesNotExist:
+		e = ES(foodName=es['foodName'],statement=es['statement'])
+
+	e.save()
+
+	return HttpResponse("editExpertStatement success")
 
 #expert statement api
 
