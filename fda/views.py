@@ -5,7 +5,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
 import json
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -52,12 +52,18 @@ def getGraphData2(request):
 
 
 #expert statement api
+
+@csrf_exempt
 def getExpertStatement(request):
-	element = request.GET['ElementName']
-	if element == "NN": 
-		data ={"Error_Msg": "No data"}
+	element = request.POST.get('ElementName',False)
+	print element
+	if element:
+		if element == "": 
+			data ={"Error_Msg": "No data"}
+		else:
+			data = {"ExpertStatement":"一天不要吃太多! 建議配水服用"}
 	else:
-		data = {"ExpertStatement":"一天不要吃太多! 建議配水服用"}
+		data ={"Error_Msg": "No data"}
 	return HttpResponse(json.dumps(data,ensure_ascii = False),content_type="application/json; charset=utf-8")
 
 
