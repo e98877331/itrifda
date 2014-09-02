@@ -13,6 +13,8 @@ urlpatterns = patterns('',
 		url(r'^showGraph2/', views.showGraph2, name='showGraph2'),
 		url(r'^getGraphData2', views.getGraphData2, name='getGraphData2'),
 
+		url(r'^getExpertStatement$', views.getExpertStatement, name='getExpertStatement'),
+
         # ex: /polls/5/
 #         url(r'^(?P<poll_id>\d+)/$', views.detail,
 #             name='detail'),

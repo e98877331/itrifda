@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*- 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 #from polls.models import Poll, Choice
 from django.core.urlresolvers import reverse
 from django.conf import settings
+import json
+
 
 # Create your views here.
 
@@ -46,3 +49,25 @@ def getGraphData2(request):
 	fp = open(dataPath, "r")
 	json = fp.read()
 	return HttpResponse(json)
+
+
+#expert statement api
+def getExpertStatement(request):
+	element = request.GET['ElementName']
+	if element == "NN": 
+		data ={"Error_Msg": "No data"}
+	else:
+		data = {"ExpertStatement":"一天不要吃太多! 建議配水服用"}
+	return HttpResponse(json.dumps(data,ensure_ascii = False),content_type="application/json; charset=utf-8")
+
+
+
+
+
+
+
+
+
+
+
+
