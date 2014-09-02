@@ -56,9 +56,35 @@
             </div>
         </div>
     </div>
-    <div id="body">
+    <div class="row">
+      <div class="col-md-6" id="body"></div>  
+      <div class="col-md-5" style="margin-top: 30px">
+            <table class="table table-hover">
+           <tr>
+            <th>食品添加物或原料名稱</th>
+            <th>添加物或原料</th> 
+            <th>熱門程度</th>
+
+        </tr>
+     
+            {% for cell in data %}
+            <tr class="tbrow" name="{{cell.name}}">
+              <td>{{cell.name}}</td>
+              <td>{{cell.name}}</td>
+              <td>{{cell.radius}}</td>
+
+
+            </tr>      
+
+        {% endfor %}
+       
+
+</table>
+
+      </div>  
 
     </div>
+    
 
     <!-- /.container -->
 
@@ -72,7 +98,7 @@
 
     <script>
 
-    var width = 960,
+    var width = 860,
     height = 500;
 
  // var nodes = d3.range(200).map(function() { return {radius: Math.random() * 12 + 4}; }),
@@ -87,7 +113,7 @@
     // .nodes(nodes)
     .size([width, height]);
 
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("#body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -183,6 +209,40 @@ force.on("tick", function(e) {
         return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
       };
     }
+
+
+
+    // $(".tbrow").hover(function(e) {
+
+    //  var tomatch = $(this).attr("name");
+    //   var n = d3.selectAll("circle")
+    //   .filter(function(dd, i){ 
+
+    //     return dd.name === tomatch });
+
+    //   n.attr("id", "hightlightcircle");
+    // });
+
+    $(document).on({
+    mouseenter: function() {
+         var tomatch = $(this).attr("name");
+      var n = d3.selectAll("circle")
+      .filter(function(dd, i){ 
+
+        return dd.name === tomatch });
+
+      n.attr("id", "hightlightcircle");
+    },
+    mouseleave: function() {
+                 var tomatch = $(this).attr("name");
+      var n = d3.selectAll("circle")
+      .filter(function(dd, i){ 
+
+        return dd.name === tomatch });
+
+      n.attr("id", "");
+    }
+}, ".tbrow");
 
     </script>
 </body>

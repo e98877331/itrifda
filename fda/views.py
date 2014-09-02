@@ -35,7 +35,13 @@ def getGraphData(request):
 
 def showGraph2(request):
 	print "go graph 2"
-	return render(request,"fda/graph2.html",{})
+
+	dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
+	fp = open(dataPath, "r")
+	jsonString = fp.read()
+	jsonObject = json.loads(jsonString)
+	sortedJsonList = sorted(jsonObject, key=lambda k: -k['radius']) 
+	return render(request,"fda/graph2.html",{"data":sortedJsonList})
 
 
 def genData2(request):
