@@ -32,37 +32,35 @@
         </style>
     </head>
     <body>
-       {% include "fda/navi.html" %}
+     {% include "fda/navi.html" %}
 
-       <div class="container">
+     <div class="container">
+
         <table class="table table-hover">
-         <tr>
-            <td>食品添加物或原料名稱</td>
-            <td>添加物或原料</td> 
-            <td>熱門程度</td>
-            <td>專家意見</td>
+           <tr>
+            <th>食品添加物或原料名稱</th>
+            <th>添加物或原料</th> 
+            <th>熱門程度</th>
+            <th>專家意見</th>
+            <th></th>
         </tr>
-        <tr>
-            <td>Eve</td>
-            <td>Jackson</td> 
-            <td>94</td>
-            <td>94</td>
-        </tr>
-        {% for cell in data %}
-        <tr>
-          <td>{{cell.name}}</td>
-          <td>{{cell.name}}</td>
-          <td>{{cell.radius}}</td>
-          <td>意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們</td>
-          <td>
-            <button class="btn btn-primary btn-lg" id="editBtn" data-toggle="modal" data-target="#myModal" for="{{forloop.counter}}" foodName={{cell.name}}>
-                編輯
-            </button>
-        </td>
+     
+            {% for cell in data %}
+            <tr>
+              <td>{{cell.name}}</td>
+              <td>{{cell.name}}</td>
+              <td>{{cell.radius}}</td>
+              <td> {{cell.statement}}</td>
+              <td>
+                <button class="btn btn-primary btn-lg" id="editBtn" data-toggle="modal" data-target="#myModal" for="{{forloop.counter}}" foodName={{cell.name}}>
+                    Edit
+                </button>
+              </td>
 
-    </tr>         
-    {% endfor %}
+            </tr>      
 
+        {% endfor %}
+       
 
 </table>
 </div>
@@ -85,9 +83,8 @@
         <!-- <fieldset> -->
         <div class="modal-body">
             <ul class="nav nav-list">
-                 <li><input class="input-xlarge" value="food1" type="text" name="foodName"></li>
-                <li class="nav-header">Message</li>
-                <li><textarea class="input-xlarge" name="statement" rows="3" id="statement"> Thanks for the article and demo
+                <li class="nav-header">編輯意見</li>
+                <li><textarea class="input-xlarge" name="statement" rows="3" id="statement">  
                 </textarea></li>
             </ul> 
         </div>
@@ -114,18 +111,19 @@ $("button#submit").click(function(){
     console.log("current comment: " + $('#statement').val());
     
     $.ajax({
-     type: "POST",
-     url: "{% url "fda:editExpertStatement" %}",
+       type: "POST",
+       url: "{% url "fda:editExpertStatement" %}",
      // data: $('form.contact').serialize(),
      data: {
-                    foodName: currentFoodName,
-                    statement: $('#statement').val(),
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-     success: function(msg){
+        foodName: currentFoodName,
+        statement: $('#statement').val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+    },
+    success: function(msg){
        // $("#thanks").html(msg)
        console.log("success " );
-       $("#myModal").modal('hide');    
+       $("#myModal").modal('hide');
+       location.reload();    
    },
    error: function(){
     console.log("error");
@@ -136,6 +134,7 @@ $("button#submit").click(function(){
 $("button#editBtn").click(function(){
     currentClickItem = $(this).attr("for");
     currentFoodName = $(this).attr("foodName");
+    $('#statement').val("");
     // $("#myModalLabel")
 });
 

@@ -57,8 +57,17 @@ def feedback(request):
 	fp = open(dataPath, "r")
 	jsonString = fp.read()
 	jsonObject = json.loads(jsonString)
+	
 
-	return render(request,"fda/feedback.html",{"data":jsonObject})
+	es = ES.objects.all()
+	for obj in jsonObject:
+		for s in es:
+			#print obj['name'] + " " + s.foodName
+			if obj['name'] == s.foodName:
+
+				obj['statement'] = s.statement
+	sortedJsonList = sorted(jsonObject, key=lambda k: -k['radius']) 
+	return render(request,"fda/feedback.html",{"data":sortedJsonList})
 
 
 
@@ -81,14 +90,15 @@ def editExpertStatement(request):
 @csrf_exempt
 def getExpertStatement(request):
 	element = request.POST.get('ElementName',False)
-	print element
-	if element:
-		if element == "": 
-			data ={"Error_Msg": "No data"}
-		else:
-			data = {"ExpertStatement":"一天不要吃太多! 建議配水服用"}
-	else:
+	try:
+		e = ES.objects.get(foodName = element)
+		data = data = {"ExpertStatement":e.statement}
+	except ES.DoesNotExist:
 		data ={"Error_Msg": "No data"}
+
+	#for testing
+	if element == "demoFood":
+		 data = {"ExpertStatement":"不建議過量攝取此添加物."}
 	return HttpResponse(json.dumps(data,ensure_ascii = False),content_type="application/json; charset=utf-8")
 
 
