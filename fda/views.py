@@ -52,7 +52,12 @@ def getGraphData2(request):
 
 
 def feedback(request):
-	return render(request,"fda/feedback.html",{})
+	dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
+	fp = open(dataPath, "r")
+	jsonString = fp.read()
+	jsonObject = json.loads(jsonString)
+
+	return render(request,"fda/feedback.html",{"data":jsonObject})
 
 #expert statement api
 

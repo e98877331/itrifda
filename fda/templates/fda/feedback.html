@@ -1,4 +1,5 @@
 {% load staticfiles %}
+<html>
 <head>
 
     <meta charset="utf-8">
@@ -19,45 +20,123 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static "logonav/js/bootstrap.min.js" %}"></script>
 
-	<script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-<style>
+        <![endif]-->
+        <style>
 
-</style>
-</head>
-<html>
- {% include "fda/navi.html" %}
+        </style>
+    </head>
+    <body>
+       {% include "fda/navi.html" %}
 
-<div class="container">
-<table class="table table-hover">
-   <tr>
-    <td>食品添加物或原料名稱</td>
-    <td>添加物或原料</td> 
-    <td>熱門程度</td>
-    <td>專家意見</td>
-  </tr>
-  <tr>
-    <td>Eve</td>
-    <td>Jackson</td> 
-    <td>94</td>
-    <td>94</td>
-  </tr>
-{% for cell in data %}
-	<tr>
-		<td>{{cell.name}}</td>
-		<td>{{cell.radius}}</td>
-		<td>{{cell.name}}</td>
-		<td>{{cell.name}}</td>
-    <!-- <label for="choice{{ forloop.counter}}">{{ choice.choice_text }}</label><br /> -->
-	</tr>         
-{% endfor %}
+       <div class="container">
+        <table class="table table-hover">
+         <tr>
+            <td>食品添加物或原料名稱</td>
+            <td>添加物或原料</td> 
+            <td>熱門程度</td>
+            <td>專家意見</td>
+        </tr>
+        <tr>
+            <td>Eve</td>
+            <td>Jackson</td> 
+            <td>94</td>
+            <td>94</td>
+        </tr>
+        {% for cell in data %}
+        <tr>
+          <td>{{cell.name}}</td>
+          <td>{{cell.name}}</td>
+          <td>{{cell.radius}}</td>
+          <td>意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們意見們</td>
+          <td>
+            <button class="btn btn-primary btn-lg" id="editBtn" data-toggle="modal" data-target="#myModal" for="{{forloop.counter}}">
+                編輯
+            </button>
+        </td>
+
+    </tr>         
+    {% endfor %}
 
 
 </table>
 </div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">新增意見</h4>
+    </div>
+
+    <form class="contact">
+        <!-- <fieldset> -->
+        <div class="modal-body">
+            <ul class="nav nav-list">
+
+                <li class="nav-header">Message</li>
+                <li><textarea class="input-xlarge" name="sug" rows="3"> Thanks for the article and demo
+                </textarea></li>
+            </ul> 
+        </div>
+        <!-- </fieldset> -->
+    </form>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="submit">Save changes</button>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+<script>
+var currentClickItem;
+
+$(function() {
+//twitter bootstrap script
+$("button#submit").click(function(){
+    console.log("current comment: " + $('form.contact').serialize());
+    console.log("clicked " );
+    $.ajax({
+     type: "POST",
+     url: "process.php",
+     data: $('form.contact').serialize(),
+     success: function(msg){
+       $("#thanks").html(msg)
+       $("#form-content").modal('hide');    
+   },
+   error: function(){
+    console.log("error");
+}
+});
+});
+
+$("button#editBtn").click(function(){
+    currentClickItem = $(this).attr("for");
+
+    // $("#myModalLabel")
+});
+
+});
+
+
+
+</script>
+
+</body>
 </html>
