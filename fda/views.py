@@ -7,6 +7,7 @@ from django.conf import settings
 import json
 from django.views.decorators.csrf import csrf_exempt
 from fda.models import ExpertStatement as ES
+import requests
 
 # Create your views here.
 
@@ -36,9 +37,10 @@ def getGraphData(request):
 def showGraph2(request):
 	print "go graph 2"
 
-	dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
-	fp = open(dataPath, "r")
-	jsonString = fp.read()
+	# dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
+	# fp = open(dataPath, "r")
+	# jsonString = fp.read()
+	jsonString = getMANdata()
 	jsonObject = json.loads(jsonString)
 	sortedJsonList = sorted(jsonObject, key=lambda k: -k['radius']) 
 	return render(request,"fda/graph2.html",{"data":sortedJsonList})
@@ -52,16 +54,19 @@ def genData2(request):
     return HttpResponse("success generate data")
    
 def getGraphData2(request):
-	dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
-	fp = open(dataPath, "r")
-	json = fp.read()
+	# dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
+	# fp = open(dataPath, "r")
+	# json = fp.read()
+
+	json = getMANdata()
 	return HttpResponse(json)
 
 
 def feedback(request):
-	dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
-	fp = open(dataPath, "r")
-	jsonString = fp.read()
+	# dataPath = "{0}/../fda/data/g2.json".format(settings.PROJECT_ROOT)
+	# fp = open(dataPath, "r")
+	# jsonString = fp.read()
+	jsonString = getMANdata()
 	jsonObject = json.loads(jsonString)
 	
 
@@ -74,7 +79,6 @@ def feedback(request):
 				obj['statement'] = s.statement
 	sortedJsonList = sorted(jsonObject, key=lambda k: -k['radius']) 
 	return render(request,"fda/feedback.html",{"data":sortedJsonList})
-
 
 
 
@@ -91,7 +95,12 @@ def editExpertStatement(request):
 
 	return HttpResponse("editExpertStatement success")
 
+
+
 #expert statement api
+
+def getFMARank(request):
+	return HttpResponse(getFMAdata(),content_type="application/json; charset=utf-8")
 
 @csrf_exempt
 def getExpertStatement(request):
@@ -103,7 +112,7 @@ def getExpertStatement(request):
 		data ={"Error_Msg": "No data"}
 
 	#for testing
-	if element == "demoFood":
+	if element == "demoFood":	
 		 data = {"ExpertStatement":'''菊糖(inulin)是一種來自菊芋的萃取物，由8~9個果糖聚合而成的多醣類，在末端以β-(1→2)的方式鍵結成為異果寡糖，人類並沒有分解此結構的酵素，這種異果寡糖無法被人體消化吸收，是屬於水溶性膳食纖維的一種。
 
 但這種對人體無營養價值的膳食纖維，在腸道中卻被有益菌視為營養來源而大快朵頤，因為有益菌可以分解、利用異果寡糖，作為其生長的營養來源。
@@ -133,11 +142,42 @@ def getExpertStatement(request):
 
 
 
+#not route
+
+#get data arrary of Material, Additives and None of above
+def getMANdata():
+
+	r = requests.get("http://140.96.178.195:3000/query")
+	if r.status_code != 200:
+		print "ERROR: http://140.96.178.195:3000/query returns " + r.status_code
+		return;
+	ja = json.loads(r.content)
+	oja = []
+	for j in ja:
+		if j.get('type') != 'F':
+			oja.append(j)
+
+			
+	sortedJsonList = sorted(oja, key=lambda k: -k['radius']) 
+	print json.dumps(sortedJsonList)
+	return json.dumps(sortedJsonList)
 
 
+#get data arrary of Material, Additives and Food
+def getFMAdata():
+	r = requests.get("http://140.96.178.195:3000/query")
+	if r.status_code != 200:
+		print "ERROR: http://140.96.178.195:3000/query returns " + r.status_code
+		return;
+	ja = json.loads(r.content)
+	oja = []
+	for j in ja:
+		if j.get('type') != 'N':
+			oja.append(j)
 
-
-
+			
+	sortedJsonList = sorted(oja, key=lambda k: -k['radius']) 
+	return json.dumps(sortedJsonList)
 
 
 

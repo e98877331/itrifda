@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 
 		url(r'^editExpertStatement$', views.editExpertStatement, name='editExpertStatement'),
 		url(r'^getExpertStatement$', views.getExpertStatement, name='getExpertStatement'),
+		url(r'^getFMARank$', views.getFMARank, name='getFMARank'),
 
         # ex: /polls/5/
 #         url(r'^(?P<poll_id>\d+)/$', views.detail,

@@ -1,2 +1,6 @@
 Django==1.6.5
+autopep8==1.0.3
+certifi==14.05.14
+pep8==1.5.7
+requests==2.4.0
 wsgiref==0.1.2

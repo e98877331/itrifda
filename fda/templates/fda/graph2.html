@@ -126,9 +126,12 @@
  //   root = graph[0]
  //   root.radius = 0;
  // root.fixed = true;
+
+ // code for scale
+ var scale = Math.sqrt(parseFloat(graph[0].radius)/Math.PI)/ Math.sqrt(parseFloat(42)/Math.PI)
  for( n in graph)
   {
-  graph[n].radius =graph[n].radius *2.5;
+  graph[n].radius = Math.sqrt(parseFloat(graph[n].radius)/Math.PI) *10 /scale; 
   }
 
 
@@ -138,7 +141,7 @@ force
 
 
 var nodes = svg.selectAll("circle")
-.data(graph.slice(1))
+.data(graph.slice(0))
 .enter().append("circle")
 .attr("r", function(d) { return d.radius; })
 .style("fill", function(d, i) { return color(i % 3); })
