@@ -52,7 +52,15 @@
             {% for cell in data %}
             <tr>
               <td>{{cell.name}}</td>
-              <td>{{cell.name}}</td>
+              <td>
+                {% if cell.type == "A"%}
+                 添加物
+                {% elif cell.type == "M"%}
+                 原料
+                {% elif cell.type == "N"%} 
+                 其他
+                {% endif %}
+              </td>
               <td>{{cell.radius}}</td>
               <td> {{cell.statement}}</td>
               <td>
